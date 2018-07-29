@@ -1,7 +1,8 @@
 package com.kenhome.mq;
 
 
-import com.kenhome.mq.config.mq.RabbitConstant;
+import com.kenhome.mq.config.mq.fanout.FanoutConstant;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,14 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Date: 2018\7\24 0024 23:50
  */
 
-public class Test extends  MqApplicationTests {
+public class FanoutTest extends  MqApplicationTests {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+
    @org.junit.Test
    public  void test(){
-       rabbitTemplate.convertAndSend(RabbitConstant.QUEUE_TRANSACTION,"hello world");
+       //根据交换器和路由键发送消息
+       rabbitTemplate.convertAndSend(FanoutConstant.EXCHANGE_NAME,"","hello world !!");
    }
 
 }
