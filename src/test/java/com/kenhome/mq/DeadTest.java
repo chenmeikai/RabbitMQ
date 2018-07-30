@@ -36,7 +36,7 @@ public class DeadTest extends MqApplicationTests {
             return message;
         };
 //         向DL_QUEUE 发送消息  10*1000毫秒后过期 形成死信
-        rabbitTemplate.convertAndSend(DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.ROUNT_DEAD_LETTER_KEY, text, messagePostProcessor, correlationData);
+        rabbitTemplate.convertAndSend(DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.ROUNT_KEY_ONE, text, messagePostProcessor, correlationData);
         for (int i = 0; i < 10; i++) {
             try {
                 Thread.sleep(2000);

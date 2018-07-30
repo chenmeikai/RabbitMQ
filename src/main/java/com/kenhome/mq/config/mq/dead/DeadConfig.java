@@ -16,10 +16,9 @@ import java.util.Map;
 
 /**
  * 队列配置.
- *
- * @author dax.
+ * @author cmk
  * @version v1.0
- * @since 2018 /2/23 14:28
+ * @since 2018 /7/30 20:28
  */
 @Configuration
 public class DeadConfig {
@@ -30,7 +29,6 @@ public class DeadConfig {
     @Bean
     public AmqpTemplate amqpTemplate() {
         Logger log = LoggerFactory.getLogger(RabbitTemplate.class);
-//          使用jackson 消息转换器
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         rabbitTemplate.setEncoding("UTF-8");
         rabbitTemplate.setMandatory(true);
@@ -47,42 +45,11 @@ public class DeadConfig {
         });
         return rabbitTemplate;
     }
-
-    /* ----------------------------------------------------------------------------测试--------------------------------------------------------------------------- */
-
-    /**
-     * @Description: 队列,支持持久化
-     */
-    @Bean("testQueue")
-    public Queue ackQueue(){
-        return QueueBuilder.durable(DeadConstant.QUEUE_NAME).build();
-    }
-
-    /**
-     * @Description: 声明Direct交换机 支持持久化.
-     */
-    @Bean("testExchange")
-    public Exchange ackExchange() {
-        return ExchangeBuilder.directExchange(DeadConstant.EXCHANGE_NAME).durable(true).build();
-    }
-
-    /**
-     * 通过绑定键 将指定队列绑定到一个指定的交换机
-     * @param queue    the queue
-     * @param exchange the exchange
-     * @return the binding
-     */
-    @Bean
-    public Binding directBinding(@Qualifier("testQueue") Queue queue, @Qualifier("testExchange") Exchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(DeadConstant.ROUNT_KEY_NAME).noargs();
-    }
-
-
+    
     /*----------------------------------------------------------------------------死信------------------------------------------------------------------------------*/
 
     /**
-     * 死信队列跟交换机类型没有关系 不一定为directExchange  不影响该类型交换机的特性.
-     *
+     * 死信队列交换机
      * @return the exchange
      */
     @Bean("deadLetterExchange")
@@ -91,50 +58,44 @@ public class DeadConfig {
     }
 
     /**
-     * 声明一个死信队列.
-     * x-dead-letter-exchange   对应  死信交换机
-     * x-dead-letter-routing-key  对应 死信队列
-     *
+     * 声明一个队列.
+     * x-dead-letter-exchange   配置死信交换机
+     * x-dead-letter-routing-key 配置死信路由key
      * @return the queue
      */
-    @Bean("deadLetterQueue")
+    @Bean("queue_name_one")
     public Queue deadLetterQueue() {
         Map<String, Object> args = new HashMap<>(2);
-//       x-dead-letter-exchange    声明  死信交换机
-        args.put(DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.EXCHANGE_DEAD_LETTER_NAME);
-//       x-dead-letter-routing-key    声明 死信路由键
-        args.put(DeadConstant.ROUNT_DEAD_LETTER_KEY, DeadConstant.ROUNT_DEAD_LETTER_KEY);
-        return QueueBuilder.durable(DeadConstant.QUEUE_DEAD_LETTER_NAME).withArguments(args).build();
+        // x-dead-letter-exchange    声明  死信交换机
+        args.put("x-dead-letter-exchange", DeadConstant.EXCHANGE_DEAD_LETTER_NAME);
+        //x-dead-letter-routing-key    声明 死信路由键
+        args.put("x-dead-letter-routing-key", DeadConstant.ROUNT_DEAD_LETTER_KEY);
+        return QueueBuilder.durable(DeadConstant.QUEUE_NAME_ONE).withArguments(args).build();
     }
 
     /**
-     * 定义死信队列转发队列.
-     *
+     * 死信转发队列.
      * @return the queue
      */
-    @Bean("redirectQueue")
+    @Bean("redirect_queue")
     public Queue redirectQueue() {
         return QueueBuilder.durable(DeadConstant.QUEUE_REDIRECT_NAME).build();
     }
-
     /**
-     * 死信路由通过 DL_KEY 绑定键绑定到死信队列上.
-     *
+     * 绑定转发队列+死信exchange+路由key
      * @return the binding
      */
     @Bean
     public Binding deadLetterBinding() {
-        return new Binding(DeadConstant.QUEUE_DEAD_LETTER_NAME, Binding.DestinationType.QUEUE, DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.ROUNT_DEAD_LETTER_KEY, null);
-
+        return new Binding(DeadConstant.QUEUE_REDIRECT_NAME, Binding.DestinationType.QUEUE, DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.ROUNT_DEAD_LETTER_KEY, null);
     }
 
     /**
-     * 死信路由通过 KEY_R 绑定键绑定到死信队列上.
-     *
+     * 执行普通的绑定,交换机可以和死信交换机相同
      * @return the binding
      */
     @Bean
     public Binding redirectBinding() {
-        return new Binding(DeadConstant.QUEUE_REDIRECT_NAME, Binding.DestinationType.QUEUE, DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.ROUNT_REDIRECT_KEY, null);
+        return new Binding(DeadConstant.QUEUE_NAME_ONE, Binding.DestinationType.QUEUE, DeadConstant.EXCHANGE_DEAD_LETTER_NAME, DeadConstant.ROUNT_KEY_ONE, null);
     }
 }

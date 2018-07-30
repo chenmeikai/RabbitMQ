@@ -31,6 +31,6 @@ public class DeadReceiver {
     @RabbitListener(queues = {DeadConstant.QUEUE_REDIRECT_NAME})
     public void redirect(Message message, Channel channel) throws IOException {
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        log.debug("dead message  10s 后 消费消息 {}",new String (message.getBody()));
+        log.info("dead message  10s 后 消费消息 {}",new String (message.getBody()));
     }
 }
