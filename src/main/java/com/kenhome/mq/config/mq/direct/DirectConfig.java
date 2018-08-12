@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description: direct模式
  * @Date: 2018\7\24 0024 23:50
  */
-@Configuration
+//@Configuration
 public class DirectConfig {
  
     /**

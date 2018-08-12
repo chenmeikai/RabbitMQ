@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @Description: fanout(广播) 模式
  * @Date: 2018\7\28 0028 11:13
  */
-@Configuration
+//@Configuration
 public class FanoutConfig {
 
     /**

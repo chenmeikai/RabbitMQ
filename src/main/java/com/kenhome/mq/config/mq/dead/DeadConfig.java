@@ -20,7 +20,7 @@ import java.util.Map;
  * @version v1.0
  * @since 2018 /7/30 20:28
  */
-@Configuration
+//@Configuration
 public class DeadConfig {
 
     @Resource

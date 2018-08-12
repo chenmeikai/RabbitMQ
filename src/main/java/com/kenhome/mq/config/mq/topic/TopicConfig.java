@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @Description: topic(主题)模式
  * @Date: 2018\7\27 0027 21:34
  */
-@Configuration
+//@Configuration
 public class TopicConfig {
 
 

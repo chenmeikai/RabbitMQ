@@ -24,7 +24,9 @@ public class DirectTest extends  MqApplicationTests {
        //直接根据队列名发送消息
 //       rabbitTemplate.convertAndSend(DirectConstant.QUEUE_NAME,"hello world");
        //根据交换器和路由键发送消息
-       rabbitTemplate.convertAndSend(DirectConstant.EXCHANGE_NAME,DirectConstant.ROUNT_KEY_NAME,"我是通过路由键发送的");
+       for(int i=0;i<100;i++){
+           rabbitTemplate.convertAndSend(DirectConstant.EXCHANGE_NAME,DirectConstant.ROUNT_KEY_NAME,"number:"+i);
+       }
    }
 
 }
