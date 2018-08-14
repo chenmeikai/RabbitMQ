@@ -24,7 +24,7 @@ public class DeadTest extends MqApplicationTests {
 
     @org.junit.Test
     public void test() {
-        String text ="死信";
+        String text = "死信";
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 //        声明消息处理器  这个对消息进行处理  可以设置一些参数   对消息进行一些定制化处理   我们这里  来设置消息的编码  以及消息的过期时间  因为在.net 以及其他版本过期时间不一致   这里的时间毫秒值 为字符串
         MessagePostProcessor messagePostProcessor = message -> {

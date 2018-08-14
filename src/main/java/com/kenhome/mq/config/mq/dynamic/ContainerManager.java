@@ -24,22 +24,22 @@ import java.util.Map;
 public class ContainerManager {
 
     @Resource
-    private Map<String,SimpleMessageListenerContainer> messageContainers;
+    private Map<String, SimpleMessageListenerContainer> messageContainers;
     @Resource
     private ConnectionFactory connectionFactory;
 
 
-   /**
-    * @Description: 添加队列和消费者
-    * @param: [queueName, exchangeName, routingKey, receiver]
-    * @return: void
-    */
-    public void addQueue(String queueName, String exchangeName, String routingKey, ChannelAwareMessageListener receiver){
+    /**
+     * @Description: 添加队列和消费者
+     * @param: [queueName, exchangeName, routingKey, receiver]
+     * @return: void
+     */
+    public void addQueue(String queueName, String exchangeName, String routingKey, ChannelAwareMessageListener receiver) {
 
         RabbitAdmin admin = new RabbitAdmin(connectionFactory);
 
         //创建队列
-        Queue queue =new Queue(queueName);
+        Queue queue = new Queue(queueName);
         admin.declareQueue(queue);
         //创建exchange
         DirectExchange exchange = new DirectExchange(exchangeName);
@@ -47,7 +47,7 @@ public class ContainerManager {
         //绑定
         admin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(routingKey));
         //消费者
-       /* DynamicReceive dynamicReceive = new DynamicReceive();*/
+        /* DynamicReceive dynamicReceive = new DynamicReceive();*/
         MessageListenerAdapter adapter = new MessageListenerAdapter(receiver);
         //配置容器
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
@@ -61,7 +61,7 @@ public class ContainerManager {
         container.setPrefetchCount(1);
         container.setMessageListener(adapter);
         container.start();
-        messageContainers.put(queueName,container);
+        messageContainers.put(queueName, container);
     }
 
     /**
@@ -69,17 +69,17 @@ public class ContainerManager {
      * @param: [queueName]
      * @return: boolean
      */
-    public boolean stopQueue(String queueName){
+    public boolean stopQueue(String queueName) {
 
-        boolean flag =false;
+        boolean flag = false;
 
         SimpleMessageListenerContainer simpleMessageListenerContainer = messageContainers.get(queueName);
 
-        if(simpleMessageListenerContainer !=null){
+        if (simpleMessageListenerContainer != null) {
             simpleMessageListenerContainer.stop();
-            flag=true;
+            flag = true;
         }
-        return  flag;
+        return flag;
     }
 
     /**
@@ -87,17 +87,17 @@ public class ContainerManager {
      * @param: [queueName]
      * @return: boolean
      */
-    public boolean startQueue(String queueName){
+    public boolean startQueue(String queueName) {
 
-        boolean flag =false;
+        boolean flag = false;
 
         SimpleMessageListenerContainer simpleMessageListenerContainer = messageContainers.get(queueName);
 
-        if(simpleMessageListenerContainer !=null){
+        if (simpleMessageListenerContainer != null) {
             simpleMessageListenerContainer.start();
-            flag=true;
+            flag = true;
         }
-        return  flag;
+        return flag;
     }
 
 

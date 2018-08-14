@@ -117,12 +117,12 @@ public class AckConfig {
         //创建队列
         channel.queueDeclare("moveQueue", true, false, false, null);
         //创建exchange
-        channel.exchangeDeclare("moveExchange",BuiltinExchangeType.DIRECT,true);
+        channel.exchangeDeclare("moveExchange", BuiltinExchangeType.DIRECT, true);
         //绑定通过 exchange、队列
         channel.queueBind("moveQueue", "moveExchange", "moveKey");
 
 
-        container.setQueueNames("moveQueue","moveQueue2");
+        container.setQueueNames("moveQueue", "moveQueue2");
         container.setExposeListenerChannel(true);
         container.setMaxConcurrentConsumers(1);
         container.setConcurrentConsumers(1);
@@ -136,8 +136,8 @@ public class AckConfig {
             public void onMessage(Message message, Channel channel) throws Exception {
                 byte[] body = message.getBody();
                 System.out.println("可动态配置消费者接收到的消息: " + new String(body));
-                String num=new String(body);
-                if("\"a5\"".equals(num)){
+                String num = new String(body);
+                if ("\"a5\"".equals(num)) {
                     Thread.sleep(5000);
                 }
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);

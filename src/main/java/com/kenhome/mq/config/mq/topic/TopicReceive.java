@@ -15,11 +15,11 @@ public class TopicReceive {
     //监听器监听指定的Queue
     @RabbitListener(queues = TopicConstant.QUEUE_NAME_ONE)
     public void receiveOne(String message) {
-        System.out.println(TopicConstant.QUEUE_NAME_ONE+"接收到的信息是:" + message);
+        System.out.println(TopicConstant.QUEUE_NAME_ONE + "接收到的信息是:" + message);
     }
 
     @RabbitListener(queues = TopicConstant.QUEUE_NAME_TWO)
     public void receiveTwo(String message) {
-        System.out.println(TopicConstant.QUEUE_NAME_TWO+"接收到的信息是:" + message);
+        System.out.println(TopicConstant.QUEUE_NAME_TWO + "接收到的信息是:" + message);
     }
 }

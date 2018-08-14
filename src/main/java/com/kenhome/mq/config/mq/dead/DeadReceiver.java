@@ -18,11 +18,12 @@ import java.io.IOException;
  */
 @Component
 public class DeadReceiver {
-    private static final Logger log= LoggerFactory.getLogger(DeadReceiver.class);
+    private static final Logger log = LoggerFactory.getLogger(DeadReceiver.class);
 
 
     /**
      * 接收死信的消费者
+     *
      * @param message the message
      * @param channel the channel
      * @throws IOException the io exception  这里异常需要处理
@@ -30,6 +31,6 @@ public class DeadReceiver {
     @RabbitListener(queues = {DeadConstant.QUEUE_REDIRECT_NAME})
     public void redirect(Message message, Channel channel) throws IOException {
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        log.info("dead message消息 {}",new String (message.getBody()));
+        log.info("dead message消息 {}", new String(message.getBody()));
     }
 }

@@ -17,7 +17,7 @@ import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 
 public class DynamicReceive2 implements ChannelAwareMessageListener {
 
-    private  static final Logger log =LoggerFactory.getLogger(DynamicReceive2.class);
+    private static final Logger log = LoggerFactory.getLogger(DynamicReceive2.class);
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
@@ -27,7 +27,7 @@ public class DynamicReceive2 implements ChannelAwareMessageListener {
         try {
             // 如果成功完成则action=Action.ACCEPT
             log.info("2动态获得的消息是：" + new String(message.getBody()));
-            if("a5".equals(new String(message.getBody()))){
+            if ("a5".equals(new String(message.getBody()))) {
                 Thread.sleep(3000);
             }
         } catch (Exception e) {

@@ -12,16 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Date: 2018\7\24 0024 23:50
  */
 
-public class FanoutTest extends  MqApplicationTests {
+public class FanoutTest extends MqApplicationTests {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
 
-   @org.junit.Test
-   public  void test(){
-       //根据交换器和路由键发送消息
-       rabbitTemplate.convertAndSend(FanoutConstant.EXCHANGE_NAME,"","hello world !!");
-   }
+    @org.junit.Test
+    public void test() {
+        //根据交换器和路由键发送消息
+        rabbitTemplate.convertAndSend(FanoutConstant.EXCHANGE_NAME, "", "hello world !!");
+    }
 
 }

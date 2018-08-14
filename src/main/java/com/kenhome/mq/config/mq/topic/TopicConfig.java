@@ -55,6 +55,7 @@ public class TopicConfig {
         return BindingBuilder.bind(queueOne()).to(topicExchange()).with(TopicConstant.BIND_KEY_ONE
         );
     }
+
     @Bean
     public Binding topicBindTwo() {
         return BindingBuilder.bind(queueTwo()).to(topicExchange()).with(TopicConstant.BIND_KEY_TWO

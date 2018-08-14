@@ -53,7 +53,7 @@ public class MqController {
     public String ack() {
 
         System.out.println("成功");
-        for (int i=0;i<50;i++){
+        for (int i = 0; i < 50; i++) {
             CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
             rabbitTemplate.convertAndSend(AckConstant.EXCHANGE_NAME, AckConstant.ROUNT_KEY_NAME, i, correlationData);
         }
@@ -65,9 +65,9 @@ public class MqController {
     public String move() {
 
         System.out.println("成功");
-        for (int i=0;i<50;i++){
+        for (int i = 0; i < 50; i++) {
             CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
-            rabbitTemplate.convertAndSend("moveExchange", "moveKey", "a"+i, correlationData);
+            rabbitTemplate.convertAndSend("moveExchange", "moveKey", "a" + i, correlationData);
         }
 
         return "success";
@@ -77,9 +77,9 @@ public class MqController {
     public String move2() {
 
         System.out.println("成功");
-        for (int i=0;i<50;i++){
+        for (int i = 0; i < 50; i++) {
             CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
-            rabbitTemplate.convertAndSend("moveExchange2", "moveKey2", "b"+i, correlationData);
+            rabbitTemplate.convertAndSend("moveExchange2", "moveKey2", "b" + i, correlationData);
         }
         return "success";
     }
@@ -88,11 +88,11 @@ public class MqController {
     @GetMapping("add")
     public String add() {
         System.out.println("成功");
-        String queueName="addQueue";
-        String exchangeName="addExchange";
-        String routingKey ="addKey";
-        DynamicReceive2 dynamicReceive2 =new DynamicReceive2();
-        containerManager.addQueue(queueName,exchangeName,routingKey,dynamicReceive2);
+        String queueName = "addQueue";
+        String exchangeName = "addExchange";
+        String routingKey = "addKey";
+        DynamicReceive2 dynamicReceive2 = new DynamicReceive2();
+        containerManager.addQueue(queueName, exchangeName, routingKey, dynamicReceive2);
         return "success";
     }
 
@@ -100,7 +100,7 @@ public class MqController {
     @GetMapping("testAdd")
     public String testAdd() {
         System.out.println("成功");
-        String queueName="addQueue";
+        String queueName = "addQueue";
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.convertAndSend("addExchange", "addKey", "动态添加队列成功", correlationData);
         return "success";
@@ -110,7 +110,7 @@ public class MqController {
     @GetMapping("stop")
     public boolean stop() {
         System.out.println("成功");
-        String queueName="addQueue";
+        String queueName = "addQueue";
         containerManager.stopQueue(queueName);
         return containerManager.stopQueue(queueName);
     }
@@ -118,7 +118,7 @@ public class MqController {
     @GetMapping("start")
     public boolean start() {
         System.out.println("成功");
-        String queueName="addQueue";
+        String queueName = "addQueue";
         containerManager.stopQueue(queueName);
         return containerManager.startQueue(queueName);
     }

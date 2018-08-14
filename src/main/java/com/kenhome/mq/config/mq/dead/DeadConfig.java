@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * 队列配置.
+ *
  * @author cmk
  * @version v1.0
  * @since 2018 /7/30 20:28
@@ -50,6 +51,7 @@ public class DeadConfig {
 
     /**
      * 死信队列交换机
+     *
      * @return the exchange
      */
     @Bean("deadLetterExchange")
@@ -61,6 +63,7 @@ public class DeadConfig {
      * 声明一个队列.
      * x-dead-letter-exchange   配置死信交换机
      * x-dead-letter-routing-key 配置死信路由key
+     *
      * @return the queue
      */
     @Bean("queue_name_one")
@@ -75,14 +78,17 @@ public class DeadConfig {
 
     /**
      * 死信转发队列.
+     *
      * @return the queue
      */
     @Bean("redirect_queue")
     public Queue redirectQueue() {
         return QueueBuilder.durable(DeadConstant.QUEUE_REDIRECT_NAME).build();
     }
+
     /**
      * 绑定转发队列+死信exchange+路由key
+     *
      * @return the binding
      */
     @Bean
@@ -92,6 +98,7 @@ public class DeadConfig {
 
     /**
      * 执行普通的绑定,交换机可以和死信交换机相同
+     *
      * @return the binding
      */
     @Bean

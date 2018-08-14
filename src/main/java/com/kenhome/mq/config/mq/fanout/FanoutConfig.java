@@ -40,8 +40,8 @@ public class FanoutConfig {
      * @return
      */
     @Bean
-    public FanoutExchange fanoutExchange(){
-        return  new FanoutExchange(FanoutConstant.EXCHANGE_NAME);
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(FanoutConstant.EXCHANGE_NAME);
     }
 
 
@@ -52,6 +52,7 @@ public class FanoutConfig {
     public Binding fanoutBindOne() {
         return BindingBuilder.bind(queueFanoutOne()).to(fanoutExchange());
     }
+
     /**
      * 绑定
      */
@@ -59,9 +60,6 @@ public class FanoutConfig {
     public Binding fanoutBindTwo() {
         return BindingBuilder.bind(queueFanoutTwo()).to(fanoutExchange());
     }
-
-
-
 
 
 }

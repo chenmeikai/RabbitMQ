@@ -6,6 +6,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 /**
  * @Author: cmk
  * @Description: direct模式
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 //@Configuration
 public class DirectConfig {
- 
+
     /**
      * 声明队列
      *
@@ -24,6 +25,7 @@ public class DirectConfig {
         // true表示持久化该队列
         return new Queue(DirectConstant.QUEUE_NAME, true);
     }
+
     /**
      * 声明direct交互器
      *
@@ -33,7 +35,7 @@ public class DirectConfig {
     DirectExchange directExchange() {
         return new DirectExchange(DirectConstant.EXCHANGE_NAME);
     }
- 
+
     /**
      * 绑定
      *
@@ -43,5 +45,5 @@ public class DirectConfig {
     public Binding directBind() {
         return BindingBuilder.bind(directQueue()).to(directExchange()).with(DirectConstant.ROUNT_KEY_NAME);
     }
- 
+
 }

@@ -16,19 +16,19 @@ import java.util.UUID;
  * @Date: 2018\7\24 0024 23:50
  */
 
-public class AckTest extends  MqApplicationTests {
+public class AckTest extends MqApplicationTests {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
 
     @org.junit.Test
-   public  void test(){
+    public void test() {
         String message = "我是message";
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.convertAndSend(AckConstant.EXCHANGE_NAME, AckConstant.ROUNT_KEY_NAME, message, correlationData);
         System.out.println("成功");
-        for (int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

@@ -69,14 +69,14 @@ public class DynamicConfig {
 
     //配置队列与消费 ，可管理messageContainers
     @Bean
-    public Map<String,SimpleMessageListenerContainer> messageContainers(ConnectionFactory connectionFactory) throws Exception {
+    public Map<String, SimpleMessageListenerContainer> messageContainers(ConnectionFactory connectionFactory) throws Exception {
 
-        Map<String,SimpleMessageListenerContainer> messageContainers = new HashMap<>(16);
+        Map<String, SimpleMessageListenerContainer> messageContainers = new HashMap<>(16);
 
         RabbitAdmin admin = new RabbitAdmin(connectionFactory);
 
         //创建队列
-        Queue queue =new Queue("moveQueue");
+        Queue queue = new Queue("moveQueue");
         admin.declareQueue(queue);
         //创建exchange
         DirectExchange exchange = new DirectExchange("moveExchange");
@@ -98,11 +98,11 @@ public class DynamicConfig {
         container.setPrefetchCount(1);
         container.setMessageListener(adapter);
         container.start();
-        messageContainers.put("moveQueue",container);
+        messageContainers.put("moveQueue", container);
 
         /*2*/
         //创建队列
-        Queue queue2 =new Queue("moveQueue2");
+        Queue queue2 = new Queue("moveQueue2");
         admin.declareQueue(queue2);
         //创建exchange
         DirectExchange exchange2 = new DirectExchange("moveExchange2");
@@ -124,7 +124,7 @@ public class DynamicConfig {
         container2.setPrefetchCount(1);
         container2.setMessageListener(adapter2);
         container2.start();
-        messageContainers.put("moveQueue2",container2);
+        messageContainers.put("moveQueue2", container2);
 
 
         return messageContainers;
